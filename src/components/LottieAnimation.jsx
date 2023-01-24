@@ -1,10 +1,10 @@
 "use client";
 import Lottie from "lottie-react";
 
-import * as posterLottie from "src/components/lottie/poster.json";
 import * as networkLottie from "src/components/lottie/network.json";
-import * as socialLottie from "src/components/lottie/social.json";
+import * as posterLottie from "src/components/lottie/poster.json";
 import * as qrLottie from "src/components/lottie/qrcode.json";
+import * as socialLottie from "src/components/lottie/social.json";
 
 const Animations = [posterLottie, networkLottie, qrLottie, socialLottie];
 

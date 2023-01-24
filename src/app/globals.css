@@ -23,12 +23,7 @@ a {
 }
 
 button {
-  box-shadow: 0px 6px #48484868;
   transition: all 0.2s ease-out;
-}
-
-button:hover {
-  box-shadow: 0px 0px #48484868;
 }
 
 ::-webkit-scrollbar {

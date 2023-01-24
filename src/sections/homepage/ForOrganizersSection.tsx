@@ -18,8 +18,7 @@ const SERVICES = [
   },
   {
     title: "Automatic feedback",
-    subtitle:
-      "Setup feedback forms, and trigger an automatic collection.",
+    subtitle: "Setup feedback forms, and trigger an automatic collection.",
     image: 3,
   },
 ];
@@ -37,7 +36,7 @@ export default function ForOrganizersSection() {
         <p className="max-w-[500px] mx-auto text-2xl text-center">
           you&apos;ll never need to go anywhere else
         </p>
-        <button className="bg-black rounded py-5 px-12 text-white text-xl font-bold hover:translate-y-2">
+        <button className="bg-black rounded py-5 px-12 text-white text-xl font-bold hover:opacity-80">
           Start for Free
         </button>
       </div>

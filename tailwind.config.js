@@ -10,10 +10,10 @@ module.exports = {
         yellow: "#f7d044",
       },
       fontFamily: {
-        sans: ["Familjen Grotesk", "sans-serif"],
+        sans: "var(--display-font)",
       },
       borderRadius: {
-        DEFAULT: "0.5rem"
+        DEFAULT: "0.5rem",
       },
       backgroundImage: {
         "orange-noise":
@@ -22,6 +22,8 @@ module.exports = {
           "url('/noise.png'), linear-gradient(180deg, #fbfcfc, #fbfcfc)",
         "blue-noise":
           "url('/noise.png'), linear-gradient(180deg, #e3edf6, #e3edf6)",
+        "dark-noise":
+          "url('/noise.png'), linear-gradient(180deg, #111111, #111111)",
       },
     },
   },

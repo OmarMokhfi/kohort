@@ -1,6 +1,6 @@
-import StarGraphic from "src/components/graphics/StarGraphic";
-import HlalGraphic from "src/components/graphics/HlalGraphic";
-import LongChipGraphic from "src/components/graphics/LongChipGraphic";
+import HlalGraphic from "@/components/graphics/HlalGraphic";
+import LongChipGraphic from "@/components/graphics/LongChipGraphic";
+import StarGraphic from "@/components/graphics/StarGraphic";
 import Image from "next/image";
 
 const EVENTS = [
@@ -54,7 +54,7 @@ export default function HeroSection() {
               </div>
             ))}
           </div>
-          <button className="bg-black rounded py-5 px-16 text-white text-xl font-bold hover:translate-y-2">
+          <button className="bg-black rounded py-5 px-16 text-white text-xl font-bold hover:opacity-80">
             Explore Events
           </button>
           <p>Pep up your self development ❤️</p>

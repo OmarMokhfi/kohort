@@ -1,11 +1,11 @@
-import StarGraphic from "src/components/graphics/StarGraphic";
-import HlalGraphic from "src/components/graphics/HlalGraphic";
-import WavesGraphic from "src/components/graphics/WavesGraphic";
-import PieGraphic from "src/components/graphics/PieGraphic";
 import Image from "next/image";
-import { IoShareSocialSharp } from "react-icons/io5";
-import { GrGrow } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
+import { GrGrow } from "react-icons/gr";
+import { IoShareSocialSharp } from "react-icons/io5";
+import HlalGraphic from "src/components/graphics/HlalGraphic";
+import PieGraphic from "src/components/graphics/PieGraphic";
+import StarGraphic from "src/components/graphics/StarGraphic";
+import WavesGraphic from "src/components/graphics/WavesGraphic";
 
 const ATTENDEES_SERVICES = [
   {

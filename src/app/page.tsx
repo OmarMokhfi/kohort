@@ -1,8 +1,8 @@
-import Navbar from "@/sections/shared/Navbar";
-import HeroSection from "@/sections/homepage/HeroSection";
-import PartnersSection from "@/sections/homepage/PartnersSection";
-import NetworkSection from "@/sections/homepage/NetworkSection";
 import ForOrganizersSection from "@/sections/homepage/ForOrganizersSection";
+import HeroSection from "@/sections/homepage/HeroSection";
+import NetworkSection from "@/sections/homepage/NetworkSection";
+import PartnersSection from "@/sections/homepage/PartnersSection";
+import Navbar from "@/sections/shared/Navbar";
 
 export default function Home() {
   return (
