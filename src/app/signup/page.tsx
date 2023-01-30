@@ -1,15 +1,17 @@
 "use client";
 
+import { createNewAccount } from "@/api/auth";
 import EmailInput from "@/components/form/EmailInput";
 import PasswordInput from "@/components/form/PasswordInput";
+import TextInput from "@/components/form/TextInput";
 import PieGraphic from "@/components/graphics/PieGraphic";
 import WavesGraphic from "@/components/graphics/WavesGraphic";
 import Logo from "@/components/Logo";
 import ToastMessage from "@/components/notifications/Message";
+import { AUTH_PROVIDERS } from "@/constants/AuthProviders";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -18,32 +20,45 @@ interface IDictionary<> {
 }
 
 const ERRORS: IDictionary = {
-  server_error: "An error occured during login please try again.",
-  password_incorrect: "The password you entered is incorrect.",
-  user_not_exists: "User with the provided email does not exist.",
+  server_error: "An error occured during registration please try again.",
+  unique_error: "User with the provided email already exists.",
 };
 
-export default function Login() {
-  const router = useRouter();
-  const [error, setError] = useState("");
+export default function Signup() {
+  const [message, setMessage] = useState({
+    type: "",
+    message: "",
+  });
   const formik = useFormik({
     initialValues: {
+      first_name: "Omar",
+      last_name: "Mokhfi",
       email: "ob.mokhfi@gmail.com",
-      password: "Azerty",
+      password: "Azerty123456",
     },
     onSubmit: (values) => {
-      signIn("credentials", { ...values, redirect: false }).then((result) => {
-        if (result) {
-          if (result.ok) {
-            router.push("/");
-          } else {
-            setError(result.error ?? "server_error");
-          }
-        } else {
-          setError("server_error");
-        }
+      setMessage({
+        type: "",
+        message: "",
       });
-      // signIn("verify-email", { callbackUrl: "/" });
+      createNewAccount({
+        ...values,
+        provider: AUTH_PROVIDERS.credentials,
+      }).then(
+        (res) => {
+          setMessage({
+            type: "success",
+            message:
+              "Account created successfully! Please check your inbox to active it.",
+          });
+        },
+        (err) => {
+          setMessage({
+            type: "error",
+            message: ERRORS[err.message] ?? ERRORS["server_error"],
+          });
+        }
+      );
     },
   });
 
@@ -67,13 +82,23 @@ export default function Login() {
         >
           <div className="space-y-8 w-full px-[40px]">
             <h1 className="flex flex-col space-y-1 text-3xl font-bold text-center">
-              <span className="text-xl">Welcome back.</span>{" "}
-              <span>Let&apos;s sign in.</span>
+              <span className="text-xl">Kohort Time</span>{" "}
+              <span>Let&apos;s sign up.</span>
             </h1>
             <div className="w-full space-y-6">
-              {error.length > 0 && (
-                <ToastMessage message={ERRORS[error]} type="error" />
-              )}
+              {message.message.length > 0 && <ToastMessage {...message} />}
+              <TextInput
+                placeholder="First Name"
+                name="first_name"
+                onChange={formik.handleChange}
+                value={formik.values.first_name}
+              />
+              <TextInput
+                placeholder="Last Name"
+                name="last_name"
+                onChange={formik.handleChange}
+                value={formik.values.last_name}
+              />
               <EmailInput
                 placeholder="Email Address"
                 name="email"
@@ -85,18 +110,10 @@ export default function Login() {
                 name="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                right={
-                  <div>
-                    <p>
-                      <span>Forgot your password? </span>
-                      <span className="text-orange cursor-pointer">Reset</span>
-                    </p>
-                  </div>
-                }
               />
             </div>
             <button className="bg-black w-full rounded py-3 px-16 text-white text-xl font-bold hover:opacity-80">
-              Log In
+              Sign Up
             </button>
             <div className="flex justify-center gap-x-3 items-center">
               <hr className="w-full border-black" />
@@ -113,9 +130,9 @@ export default function Login() {
           </div>
           <div className="w-full py-6 mt-[40px] text-center bg-bluish">
             <p>
-              Don&apos;t have an account yet?{" "}
-              <Link href="/signup">
-                <span className="text-orange font-bold">Sign up</span>
+              Already have an account?{" "}
+              <Link href="/login">
+                <span className="text-orange font-bold">Log In</span>
               </Link>
             </p>
           </div>

@@ -5,7 +5,7 @@ interface InputProps {
   onChange: React.ChangeEventHandler;
   placeholder: string;
   name: string;
-  right: React.ReactNode;
+  right?: React.ReactNode;
 }
 
 export default function PasswordInput({
@@ -25,7 +25,7 @@ export default function PasswordInput({
         onChange={onChange}
         name={name}
       />
-      <div className="flex justify-end mt-2">{right}</div>
+      {right && <div className="flex justify-end mt-2">{right}</div>}
     </div>
   );
 }

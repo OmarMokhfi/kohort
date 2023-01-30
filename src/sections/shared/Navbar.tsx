@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function Navbar() {
   const { data } = useSession();
-  console.log(data);
   return (
     <section
       className="md:py-8 w-full flex justify-between container fixed md:static bottom-4"
@@ -19,7 +18,7 @@ export default function Navbar() {
         <a href="#for-organizers" className="hidden md:block">
           For organizers
         </a>
-        <a>Sign Up</a>
+        <Link href="/signup">Sign Up</Link>
         {data?.user?.email ? (
           <a className="text-red-500 cursor-pointer" onClick={() => signOut()}>
             Log Out
