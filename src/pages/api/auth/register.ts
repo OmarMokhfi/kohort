@@ -1,17 +1,14 @@
+import { sendAccountVerificationEmail } from "@/api/contact";
 import prisma, { PrismaError } from "@/lib/Prisma";
 import { hashPassword } from "@/services/password.service";
+import { generateToken } from "@/services/token.service";
+import { ResponseType } from "@/types/Requests";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {
-  success: boolean;
-  message: string;
-  data?: any;
-};
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResponseType>
 ) {
   try {
     let { email, password, first_name, last_name, provider } = req.body;
@@ -24,6 +21,10 @@ export default async function handler(
         last_name,
         provider,
       },
+    });
+
+    generateToken({ email, first_name, last_name }).then((token) => {
+      sendAccountVerificationEmail(first_name, email, token);
     });
 
     res.status(200).json({

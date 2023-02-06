@@ -28,10 +28,11 @@ export default function Login() {
   const [error, setError] = useState("");
   const formik = useFormik({
     initialValues: {
-      email: "ob.mokhfi@gmail.com",
-      password: "Azerty",
+      email: "",
+      password: "",
     },
     onSubmit: (values) => {
+      setError("");
       signIn("credentials", { ...values, redirect: false }).then((result) => {
         if (result) {
           if (result.ok) {
@@ -43,11 +44,11 @@ export default function Login() {
           setError("server_error");
         }
       });
-      // signIn("verify-email", { callbackUrl: "/" });
     },
   });
 
-  const loginGoogle = () => {
+  const loginGoogle = (e: any) => {
+    e.preventDefault();
     signIn("google", { callbackUrl: "/" });
   };
 
@@ -85,14 +86,14 @@ export default function Login() {
                 name="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                right={
-                  <div>
-                    <p>
-                      <span>Forgot your password? </span>
-                      <span className="text-orange cursor-pointer">Reset</span>
-                    </p>
-                  </div>
-                }
+                // right={
+                //   <div>
+                //     <p>
+                //       <span>Forgot your password? </span>
+                //       <span className="text-orange cursor-pointer">Reset</span>
+                //     </p>
+                //   </div>
+                // }
               />
             </div>
             <button className="bg-black w-full rounded py-3 px-16 text-white text-xl font-bold hover:opacity-80">

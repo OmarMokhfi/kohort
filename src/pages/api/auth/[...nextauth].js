@@ -1,6 +1,8 @@
+import { sendWelcomeEmail } from "@/api/contact";
+import { AUTH_PROVIDERS } from "@/constants/AuthProviders";
 import prisma from "@/lib/Prisma";
-import { comparePassword } from "@/services/password.service";
-import jwt from "jsonwebtoken";
+import { comparePassword, hashPassword } from "@/services/password.service";
+import PasswordGenerator from "generate-password";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -29,48 +31,73 @@ export const authOptions = {
         }
       },
     }),
-    Credentials({
-      id: "verify-email",
-      name: "verify-email",
-      async authorize(credentials) {
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9tYXIubW9raGZpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiQXplcnR5MTIzNDU2IiwiZmlyc3RfbmFtZSI6Ik9tYXIiLCJsYXN0X25hbWUiOiJNb2toZmkiLCJpYXQiOjE2NzQ3ODQ2NzB9.R4T0sbkxNT_BqY55P2-G_Vt4nWmWWVIoKVgojx34tro";
-        let decoded;
-        try {
-          decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET);
-        } catch (error) {
-          throw new Error(
-            "User does not exists. Please make sure you insert the correct email & password."
-          );
-        }
-        if (decoded) {
-          return decoded;
-        } else {
-          throw new Error(
-            "User does not exists. Please make sure you insert the correct email & password."
-          );
-        }
-      },
-    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID || "",
       clientSecret: process.env.GOOGLE_SECRET || "",
       async profile(profile) {
-        const user = await prisma.user.findFirst({
+        const foundUser = await prisma.user.findFirst({
           where: {
             email: profile.email,
           },
         });
-        return user ? { id: profile.sub, ...profile } : null;
+        let createdUser;
+        if (!foundUser) {
+          let generatedPassword = PasswordGenerator.generate({
+            length: 12,
+            numbers: true,
+          });
+          let password = await hashPassword(generatedPassword);
+          try {
+            createdUser = await prisma.user.create({
+              data: {
+                email: profile.email,
+                password,
+                first_name: profile.given_name,
+                last_name: profile.family_name,
+                provider: AUTH_PROVIDERS.google,
+                verified: true,
+              },
+            });
+            sendWelcomeEmail(
+              profile.given_name,
+              profile.email,
+              generatedPassword
+            );
+          } catch (error) {
+            return null;
+          }
+        }
+        return foundUser
+          ? {
+              id: profile.sub,
+              first_name: foundUser.first_name,
+              last_name: foundUser.last_name,
+              email: foundUser.email,
+              email_verified: profile.email_verified,
+            }
+          : {
+              id: profile.sub,
+              first_name: createdUser.first_name,
+              last_name: createdUser.last_name,
+              email: profile.email,
+              email_verified: profile.email_verified,
+            };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
-      return token;
+    async jwt({ token, user, account }) {
+      return { ...token, ...account, ...user };
     },
-    async session({ session, user, token }) {
-      return session;
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          email: token.email,
+          first_name: token.first_name,
+          last_name: token.last_name,
+        },
+      };
     },
     async signIn({ account, profile }) {
       if (account.provider === "google") {

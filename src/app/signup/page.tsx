@@ -31,10 +31,10 @@ export default function Signup() {
   });
   const formik = useFormik({
     initialValues: {
-      first_name: "Omar",
-      last_name: "Mokhfi",
-      email: "ob.mokhfi@gmail.com",
-      password: "Azerty123456",
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
     },
     onSubmit: (values) => {
       setMessage({

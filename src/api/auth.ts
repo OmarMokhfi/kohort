@@ -21,3 +21,17 @@ export const createNewAccount = (credentials: RegistrationData) => {
       .catch((err) => reject(err.response.data));
   });
 };
+
+export const verifyAccount = (token: string) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/api/auth/verify", { token })
+      .then(
+        (res) => {
+          resolve(res.data);
+        },
+        (err) => reject(err.response.data)
+      )
+      .catch((err) => reject(err.response.data));
+  });
+};

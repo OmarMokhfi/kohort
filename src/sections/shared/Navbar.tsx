@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   const { data } = useSession();
+  console.log(data);
   return (
     <section
       className="md:py-8 w-full flex justify-between container fixed md:static bottom-4"
