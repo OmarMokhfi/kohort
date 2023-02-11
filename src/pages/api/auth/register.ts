@@ -20,6 +20,14 @@ export default async function handler(
         first_name,
         last_name,
         provider,
+        groups: {
+          create: [
+            {
+              name: `${first_name} ${last_name}`,
+              slug: `${first_name}-${email.split("@")[0]}`,
+            },
+          ],
+        },
       },
     });
 

@@ -9,7 +9,7 @@ import ToastMessage from "@/components/notifications/Message";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -25,7 +25,10 @@ const ERRORS: IDictionary = {
 
 export default function Login() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = useState("");
+  const callbackUrl =
+    searchParams.get("ref") == "create-event" ? "/groups/events/create" : "/";
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -36,7 +39,7 @@ export default function Login() {
       signIn("credentials", { ...values, redirect: false }).then((result) => {
         if (result) {
           if (result.ok) {
-            router.push("/");
+            router.push(callbackUrl);
           } else {
             setError(result.error ?? "server_error");
           }
@@ -49,7 +52,7 @@ export default function Login() {
 
   const loginGoogle = (e: any) => {
     e.preventDefault();
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: callbackUrl });
   };
 
   return (
@@ -115,7 +118,13 @@ export default function Login() {
           <div className="w-full py-6 mt-[40px] text-center bg-bluish">
             <p>
               Don&apos;t have an account yet?{" "}
-              <Link href="/signup">
+              <Link
+                href={
+                  searchParams.get("ref")
+                    ? `/signup?ref=${searchParams.get("ref")}`
+                    : "/signup"
+                }
+              >
                 <span className="text-orange font-bold">Sign up</span>
               </Link>
             </p>

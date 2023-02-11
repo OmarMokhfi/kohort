@@ -7,7 +7,7 @@ const nextConfig = {
     ],
   },
   images: {
-    domains: ["img.evbuc.com", "assets.website-files.com"],
+    domains: ["img.evbuc.com", "assets.website-files.com", "www.rd.com"],
   },
 };
 

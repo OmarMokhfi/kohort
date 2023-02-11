@@ -3,6 +3,9 @@
   html {
     @apply font-sans;
   }
+  body {
+    background: url("/noise.png"), linear-gradient(180deg, #f6e4da, #f6e4da);
+  }
   .container {
     @apply mx-auto px-4;
   }

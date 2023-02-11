@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/LottieAnimation.jsx",
-    "src/pages/api/auth/[...nextauth].js"
+    "src/pages/api/auth/[...nextauth].js",
+    "src/app/groups/[slug]"
   ],
   "exclude": ["node_modules"]
 }

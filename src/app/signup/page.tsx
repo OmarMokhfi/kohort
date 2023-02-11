@@ -12,6 +12,7 @@ import { AUTH_PROVIDERS } from "@/constants/AuthProviders";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -29,6 +30,9 @@ export default function Signup() {
     type: "",
     message: "",
   });
+  const searchParams = useSearchParams();
+  const callbackUrl =
+    searchParams.get("ref") == "create-event" ? "/groups/events/create" : "/";
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -62,8 +66,9 @@ export default function Signup() {
     },
   });
 
-  const loginGoogle = () => {
-    signIn("google", { callbackUrl: "/" });
+  const loginGoogle = (e: any) => {
+    e.preventDefault();
+    signIn("google", { callbackUrl: callbackUrl });
   };
 
   return (

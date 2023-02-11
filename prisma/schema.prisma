@@ -8,12 +8,18 @@ generator client {
 }
 
 model Group {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  slug        String @unique
-  title       String
-  description String
-  owner       User   @relation(fields: [ownerId], references: [id])
-  ownerId     String @db.ObjectId
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  slug       String  @unique
+  name       String
+  bio        String?
+  image      String?
+  website    String?
+  facebook   String?
+  linkedin   String?
+  twitter    String?
+  eventbrite String?
+  owner      User    @relation(fields: [ownerId], references: [id])
+  ownerId    String  @db.ObjectId
 }
 
 model User {

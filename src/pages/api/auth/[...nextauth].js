@@ -56,6 +56,14 @@ export const authOptions = {
                 last_name: profile.family_name,
                 provider: AUTH_PROVIDERS.google,
                 verified: true,
+                groups: {
+                  create: [
+                    {
+                      name: `${profile.given_name} ${profile.family_name}`,
+                      slug: `${profile.given_name}-${profile.family_name}-${profile.sub}`,
+                    },
+                  ],
+                },
               },
             });
             sendWelcomeEmail(
