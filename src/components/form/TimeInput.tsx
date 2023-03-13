@@ -1,26 +1,24 @@
 import React from "react";
 
-interface InputProps {
-  value: string;
+export interface InputProps {
+  value: number | undefined;
   onChange: React.ChangeEventHandler;
   placeholder: string;
   name: string;
-  right?: React.ReactNode;
   label?: string;
   required?: boolean;
 }
 
-export default function PasswordInput({
-  value = "",
+export default function TimeInput({
+  value,
   onChange,
   placeholder = "",
   name = "",
-  right,
   label,
   required,
 }: InputProps) {
   return (
-    <div className="w-full">
+    <div>
       {label && (
         <div className="mb-1 ml-1 font-bold">
           <label htmlFor={name}>
@@ -30,14 +28,14 @@ export default function PasswordInput({
       )}
       <input
         placeholder={placeholder}
-        type="password"
-        className="w-full px-6 py-3 border-2 border-black rounded focus:outline-0 focus:border-gray-500"
+        type="time"
+        className="w-full px-6 py-3 border-2 border-black rounded focus:ring-0 focus:border-gray-500"
         value={value}
         onChange={onChange}
         name={name}
+        id={name}
         required={!!required}
       />
-      {right && <div className="flex justify-end mt-2">{right}</div>}
     </div>
   );
 }

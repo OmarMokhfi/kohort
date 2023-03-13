@@ -20,6 +20,7 @@ model Group {
   eventbrite String?
   owner      User    @relation(fields: [ownerId], references: [id])
   ownerId    String  @db.ObjectId
+  Venue      Venue[]
 }
 
 model User {
@@ -31,4 +32,25 @@ model User {
   password   String
   provider   String
   groups     Group[]
+}
+
+model Venue {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  address   String
+  name      String
+  latitude  String
+  longitude String
+  capacity  Int
+  events    Event[]
+  group     Group   @relation(fields: [groupId], references: [id])
+  groupId   String  @db.ObjectId
+}
+
+model Event {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  summary     String
+  description String
+  Venue       Venue?  @relation(fields: [venueId], references: [id])
+  venueId     String? @db.ObjectId
 }

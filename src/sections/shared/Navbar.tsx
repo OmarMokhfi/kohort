@@ -18,7 +18,7 @@ export default function Navbar() {
           href={
             status == "unauthenticated"
               ? "/login?ref=create-event"
-              : "/groups/events/create"
+              : "/dashboard/groups?action=create-event"
           }
           className="text-orange"
         >
